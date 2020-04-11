@@ -48,3 +48,79 @@ B方案是可行的，但是在大多数场景下不推荐。缺点是实现复�
 
 </p>
 </details>
+
+###### 3. 数组的常见操作（使用ES6+的原生方法）
+
+场景描述：为下面的各种应用场景设计工程上可行的处理方式。
+
+A. 找出2个数组的交集: 
+```
+// given:
+let nums1 = [0, 2, 4, 6, 8, 8];
+let nums2 = [1, 2, 3, 4, 5, 6];
+// asked for:
+[2, 4, 6]
+```
+B. 从array of obj映射出 array of value:
+```
+// given
+let employees = [
+    { name: 'Tom', age: 42, gender: 'M' },
+    { name: 'David', age: 21, gender: 'M'  },
+    { name: 'Matt', age: 32, gender: 'M'  },
+    { name: 'Mary', age: 22, gender: 'F'  },
+    { name: 'Monica', age: 21, gender: 'F'  },
+    { name: 'Shally', age: 19, gender: 'F'  },
+]
+// asked for:
+["Tom", "David", "Matt", "Mary", "Monica", "Shally"]
+```
+C. 清洗数组中的false值（包括false, 0， ""，null, NaN, undefined）
+```
+// given
+let results = [0, 'negative', '', NaN, 9, true, undefined, 'high', false];
+// asked for
+["negative", 9, true, "high"]
+```
+D. 数组求和
+```
+// given
+let nums = [1, 2, 3, 4, 5];
+// asked for
+15
+```
+E. 数组排序
+```
+// given
+let nums = [3, 1, 2, 4, 5];
+// asked for
+[1, 2, 3, 4, 5]
+```
+
+<details><summary><b>Answer</b></summary>
+<p>
+
+#### Answer: 工程上可行的方案，应该是执行效率较高，代码易读，代码可以封装成通用方法。
+
+A. 先对nums1去重，在遍历nums1元素，将nums2也同时包含的元素作为filter条件
+```
+let intersect = [...new Set(nums1)].filter(item => nums2.includes(item));
+```
+B. 使用JS内置的Array.from()方法
+```
+let names = Array.from(employees, ({name}) => name);
+```
+C. 将Boolean作为filter条件
+```
+let cleaned = results.filter(Boolean)
+```
+D. 使用Array.reduce()方法
+```
+let sum = nums.reduce((x, y) => x + y, 0);
+```
+E. 使用Array.sort()方法，注意自定义排序函数的使用
+```
+let sorted = nums.sort((a, b) => a-b); // 如果需要倒序，则排序函数是 b-a
+```
+</p>
+</details>
